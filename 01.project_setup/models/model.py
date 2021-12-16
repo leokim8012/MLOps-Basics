@@ -1,43 +1,36 @@
-from abc import ABC
-from abc import abstractmethod
-
 from easydict import EasyDict as edict
-from tensorflow.python import keras
+
+from tensorflow.python.keras import Input
+from tensorflow.python.keras import Model
+from tensorflow.python.keras import layers
 
 
-class Model(ABC):
+from models import model
+class Discriminator(model.Model):
+  def __init__(self, model_parameters: edict):
+    super().__init__(model_parameters)
+  
 
-    def __init__(
-            self,
-            model_parameters: edict = None,
-    ):
-        self._model_parameters = model_parameters
-        self._model = self.define_model()
+  def define_model(self):
+    input_img = Input(shape=[
+        self.model_parameters.img_height,
+        self.model_parameters.img_width,
+        self.model_parameters.num_channels,
+    ])
 
-    def __call__(self, inputs, **kwargs):
-        return self.model(inputs=inputs, **kwargs)
+    x = layers.Conv2D(filters=64, kernel_size=(5, 5), strides=(2, 2), padding='same')(input_img)
+    x = layers.LeakyReLU()(x)
+    x = layers.Dropout(0.3)(x)
 
-    @abstractmethod
-    def define_model(self) -> keras.Model:
-        raise NotImplementedError
+    x = layers.Conv2D(filters=128, kernel_size=(5, 5), strides=(2, 2), padding='same')(x)
+    x = layers.LeakyReLU()(x)
+    x = layers.Dropout(rate=0.3)(x)
+
+    x = layers.Flatten()(x)
+    x = layers.Dense(units=1)(x)
     
-    @property
-    def model(self):
-        return self._model
+    model = Model(name='MLOps', inputs=input_img, outputs=x)
 
-    @property
-    def model_parameters(self) -> edict:
-        return self._model_parameters
+    return model
 
-
-    @property
-    def trainable_variables(self):
-        return self.model.trainable_variables
-
-
-    @property
-    def model_name(self) -> str:
-        return self.__class__.__name__
-
-    def __repr__(self):
-        return self.model_name
+  

@@ -1,0 +1,13 @@
+batch_size: 32
+buffer_size: 3670
+
+num_epochs: 10
+hidden_size: 100
+
+img_height: 180
+img_width: 180
+
+num_channels: 5
+learning_rate_discriminator: 0.0002
+save_images_every_n_steps: 50
+latent_size: 32400

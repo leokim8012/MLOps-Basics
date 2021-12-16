@@ -1,30 +1,18 @@
 import tensorflow as tf
 
-from datasets.fashion_mnist import FashionMnistDataset as Dataset
-from models.discriminator import Discriminator as Model
-
-from trainers.model_trainer import ModelTrainer
+from datasets.flower_photos import FlowerPhotosDataset as Dataset
 
 from utils import config
 
 def main():
-  problem_params = config.read_config('fashion_mnist')
+  problem_params = config.read_config('flower_photos')
 
-  dataset = Dataset(problem_params).load_data()
+  dataset = Dataset(problem_params)
   train_dataset = dataset
 
-  model = Model(problem_params)
+  print(train_dataset.train_dataset)
 
-  trainer = ModelTrainer(
-    model_parameters=problem_params,
-    model=model, 
-    model_optimizer=tf.keras.optimizers.Adam(
-      learning_rate=problem_params.learning_rate_discriminator,
-      beta_1=0.5,
-    )
-  )
-
-  trainer.train(train_dataset, problem_params.num_epochs)
+  # model = Model(problem_params)
 
 
 if __name__ == '__main__':
