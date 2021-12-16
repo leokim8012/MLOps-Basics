@@ -1,6 +1,7 @@
 import tensorflow as tf
 
 from datasets.flower_photos import FlowerPhotosDataset as Dataset
+from models.flower_classifier import FlowerClassifierModel as Model
 
 from utils import config
 
@@ -12,7 +13,12 @@ def main():
 
   print(train_dataset.train_dataset)
 
-  # model = Model(problem_params)
+  model = Model(problem_params)
+  model.model.compile(optimizer='adam',
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=['accuracy'])
+
+  model.model.summary()
 
 
 if __name__ == '__main__':
