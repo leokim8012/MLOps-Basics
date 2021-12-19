@@ -5,3 +5,5 @@ flower_photos
 
 *.tgz
 *.zip
+
+*logs*

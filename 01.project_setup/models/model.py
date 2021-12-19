@@ -21,6 +21,7 @@ class Model(ABC):
     def define_model(self) -> keras.Model:
         raise NotImplementedError
 
+
     @property
     def model(self):
         return self._model

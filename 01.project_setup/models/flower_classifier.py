@@ -30,7 +30,6 @@ class FlowerClassifierModel(model.Model):
       layers.Dense(128, activation='relu'),
       layers.Dense(self.model_parameters.num_channels)
     ])
-    
 
     return model
 
