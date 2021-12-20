@@ -60,4 +60,4 @@ class Trainer:
 
     def save_model(self, name):
         path=os.getcwd() + '/pretrained-models/' 
-        self.generator.model.save(path + name + '.h5')
+        self.model.model.save(path + name + '.h5')
